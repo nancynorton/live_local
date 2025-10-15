@@ -6,7 +6,6 @@ import {
   fetchAll as fetchAllBusinesses,
   findByKeyword as findBusinessesByKeyword,
   findByCategory as findBusinessesByCategory,
-  toPlainObject as businessToPlain,
 } from '../models/Business.js';
 
 // path to JSON data (fallback)

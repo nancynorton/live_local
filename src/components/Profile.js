@@ -1,8 +1,14 @@
 
 // added compoment - changed from static in feature 3 to js - Profile page 
+
+// also need to add auth to parse so that we can save profiles to specific users
+// also need to add ability to view and edit your own profile
+// also need to add ability to delete your own profile
+// also need to add ability to view other profiles, maybe a list of profiles or a search function
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.css';
+import { createProfile } from '../models/Profile.js';
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -23,9 +29,17 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Profile submitted:', formData);
-    alert('Profile created successfully!');
+    // create profile in Parse
+    createProfile(formData)
+      .then((saved) => {
+        console.log('Saved profile:', saved.toJSON());
+        alert('Profile created successfully!');
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', location: '', interests: '' });
+      })
+      .catch((err) => {
+        console.error('Error saving profile:', err);
+        alert('There was a problem saving your profile.');
+      });
   };
 
   return (

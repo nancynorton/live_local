@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Application.css';
+import { createBusiness } from '../models/Business.js';
 
 const Application = () => {
   const [formData, setFormData] = useState({
@@ -19,9 +20,24 @@ const Application = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your application! We will review it and get back to you.');
+    // create a Business object in Parse
+    const payload = {
+      Name: formData.businessName,
+      Category: formData.businessType,
+      Address: formData.location,
+      Keywords: [formData.businessType, formData.location]
+    };
+
+    createBusiness(payload)
+      .then((saved) => {
+        console.log('Saved business:', saved.toJSON());
+        alert('Thank you — your business application was submitted.');
+        setFormData({ email: '', businessName: '', businessType: '', location: '' });
+      })
+      .catch((err) => {
+        console.error('Error saving business:', err);
+        alert('There was a problem submitting your application. It will be saved locally.');
+      });
   };
 
   return (

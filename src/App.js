@@ -1,5 +1,7 @@
+// Student B - configured webpack, migrated files from feature 3 into live-local (the new create-react-app directory)
+
 import React from 'react';
-// adding in routing 
+// Student b - adding in routing 
 // the Link part in the router allows us to navigate w/out reloading the page - tells router to render the matching route
 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';

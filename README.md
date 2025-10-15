@@ -1,5 +1,5 @@
-Partners:
-Drew DiGuglielmo and Nancy Norton
+# Partners:
+## Drew DiGuglielmo and Nancy Norton
 
 # Getting Started with Create React App
 
@@ -40,3 +40,7 @@ See the section about
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
 You can `eject` at any time. This command will remove the single build dependency from your project.
+
+# Now you are ready to go!
+
+Feel free to traverse our site, look at restaurants, add your own, make a profile, and more!

@@ -1,5 +1,5 @@
 # Partners:
-## Drew DiGuglielmo and Nancy Norton
+Drew DiGuglielmo and Nancy Norton
 
 # Getting Started with Create React App
 

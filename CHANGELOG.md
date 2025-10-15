@@ -7,5 +7,5 @@ All notable changes to this project will be documented in this file.
 - Centralize CRUD and query helpers in `src/models/*`.
 - Use named exports for models to satisfy lint rules.
 - Wire Application/Profile forms to save to Parse via model helpers.
-- Added comments/documentation for all Parse queries.
-- Bumped version to 0.2.0.
+- Added comments for all Parse queries.
+- Changed to version to 0.2.0.

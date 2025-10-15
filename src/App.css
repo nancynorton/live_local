@@ -1,38 +1,134 @@
+/* Importing two google fonts to use */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap");
+
 .App {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* heading style  */
+h1 {
+  font-family: "Lobster", cursive;
   text-align: center;
+  margin: 1rem 0;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  text-decoration: underline;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* navigation / bar at top to go to different pages */
+nav {
+  background: #ffffff;
+  padding: 0.5rem 1rem;
+  top: 0;
+  z-index: 1000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav li {
+  display: inline-block;
+}
+
+/* flex box */
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  background: #27ae60;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  color: #f39c12;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #f8f9fa;
+  padding: 20px;
+  color: #333;
 }
 
-.App-link {
-  color: #61dafb;
+.suggested-section {
+  text-align: center;
+  padding: 2rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.suggested-section h2,
+.map-section h2 {
+  font-family: "Lobster", cursive;
+  margin-bottom: 1rem;
+  color: #34495e;
+}
+
+/* responsive design element - columns will adjust based on screen size - CSS grid */
+.image-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.image-container {
+  text-align: center;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* want to be able to click on each of these categories in the future*/
+.image-container:hover {
+  transform: scale(1.05);
+}
+
+.image-container img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.image-caption {
+  padding: 0.5rem;
+  font-weight: bold;
+  background: #ecf0f1;
+}
+
+/* map section */
+.map-section {
+  text-align: center;
+  padding: 2rem;
+}
+
+.map-container img {
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* responsive elements - will adjust based on screen type / size */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 1rem;
   }
 }

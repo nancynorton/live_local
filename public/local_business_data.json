@@ -1,0 +1,56 @@
+[
+  [
+    {
+      "Category": "Food and Beverage",
+      "Keywords": ["Lunch", "Dinner"],
+      "Name": "Dainty Maid Food Hall",
+      "Address": "231 S Michigan St, South Bend, IN 46601"
+    },
+    {
+      "Category": "Food and Beverage",
+      "Keywords": ["Bakery", "Breakfast", "Coffee", "Cafes"],
+      "Name": "Ragamuffin Bakery + Coffee",
+      "Addresses": [
+        "460 Stull St Suite 500, South Bend, IN 46601",
+        "123 N Hill St, South Bend, IN 46617"
+      ]
+    },
+    {
+      "Category": "Food and Beverage",
+      "Keywords": ["Breakfast", "Coffee", "Lunch", "Cafes"],
+      "Name": "The Early Bird Eatery",
+      "Address": "231 S Michigan St, South Bend, IN 46601"
+    },
+    {
+      "Category": "Food and Beverage",
+      "Keywords": ["Drinks", "Tasting", "Whiskey"],
+      "Name": "The Indiana Whiskey Co.",
+      "Address": "1115 W Sample St, South Bend, IN 46619"
+    },
+    {
+      "Category": "Food and Beverage",
+      "Keywords": ["Drinks", "Bar", "Pub", "Irish"],
+      "Name": "Corby's Irish Pub",
+      "Address": "441 E Lasalle Ave, South Bend, IN 46617"
+    },
+    {
+      "Category": "Other",
+      "Keywords": ["Books", "Bookstore", "Other"],
+      "Name": "Griffon Bookstore",
+      "Address": "121 W Colfax Ave, South Bend, IN 46601"
+    },
+    {
+      "Category": "Food and Beverage",
+      "Keywords": [
+        "Dessert",
+        "Coffee",
+        "Cafe",
+        "Chocolate",
+        "Gift Shop",
+        "Cafes"
+      ],
+      "Name": "South Bend Chocolate Cafe",
+      "Address": "122 S Michigan St, South Bend, IN 46601"
+    }
+  ]
+]

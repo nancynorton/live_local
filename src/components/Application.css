@@ -1,0 +1,95 @@
+/* imported google fonts to use  */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap");
+
+.application-page {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background: #f4fff7;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* nav to home page */
+.home-nav {
+  background: #27ae60;
+  padding: 1rem;
+  text-align: left;
+}
+
+.home-button {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  background: #219150;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.home-button:hover {
+  background: #2ecc71;
+}
+
+/* form container */
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container h1 {
+  font-family: "Lobster", cursive;
+  color: #27ae60;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.container p {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+hr {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+/* info that user enters  */
+input[type="text"],
+input[type="email"],
+select {
+  width: 100%;
+  padding: 0.7rem;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background: #27ae60;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #2ecc71;
+}

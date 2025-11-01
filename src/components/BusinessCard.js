@@ -1,17 +1,22 @@
 import React from 'react';
 import './BusinessCard.css';
+import { Link } from 'react-router-dom';
 
 const BusinessCard = ({ business }) => {
+  const id = business.objectId || encodeURIComponent(business.Name || '');
+
   return (
-    <div className="business-card">
-      <h3>{business.Name || "Unnamed Business"}</h3>
-      <p><strong>Category:</strong> {business.Category || "N/A"}</p>
-      {/* <p><strong>Keywords:</strong> {business.Keywords?.join(", ") || "None"}</p>   removed this statement bc the user doesnt need to see them, maybe we should add a description option too*/}
-      <p><strong>Address:</strong> {
-        business.Address || 
-        (business.Addresses ? business.Addresses.join(", ") : "N/A")
-      }</p>
-    </div>
+    <Link to={`/business/${id}`} className="business-card-link">
+      <div className="business-card">
+        <div className="card-image" style={{ backgroundImage: `url(${business.Image || '/images/coffee.jpg'})` }} />
+        <div className="card-body">
+          <h3>{business.Name || "Unnamed Business"}</h3>
+          <p className="address"><strong>Address:</strong> {
+            business.Address || (business.Addresses ? business.Addresses.join(", ") : "N/A")
+          }</p>
+        </div>
+      </div>
+    </Link>
   );
 };
 

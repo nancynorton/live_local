@@ -93,3 +93,87 @@ button {
 button:hover {
   background: #2ecc71;
 }
+
+/* Additional form elements */
+textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.additional-location {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.additional-location input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.remove-location {
+  width: auto;
+  padding: 0.5rem 1rem;
+  background: #e74c3c;
+}
+
+.remove-location:hover {
+  background: #c0392b;
+}
+
+.add-location {
+  width: auto;
+  padding: 0.5rem 1rem;
+  margin: 0 0 1rem;
+  background: #3498db;
+}
+
+.add-location:hover {
+  background: #2980b9;
+}
+
+small {
+  display: block;
+  color: #666;
+  margin: -0.5rem 0 1rem;
+  font-size: 0.85rem;
+}
+
+input[type="file"] {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+}
+
+/* Submit button specific styling */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-top: 1rem;
+  background: #2176bd; /* stronger blue */
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(33,118,189,0.15);
+}
+
+.submit-button:hover {
+  background: #1b5f98;
+}
+
+/* Make sure add/remove location buttons remain auto-width */
+.add-location,
+.remove-location {
+  width: auto;
+}

@@ -4,11 +4,16 @@ import React from 'react';
 // Student b - adding in routing 
 // the Link part in the router allows us to navigate w/out reloading the page - tells router to render the matching route
 
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import BusinessList from './components/BusinessList';
 import Application from './components/Application';
 import Profile from './components/Profile';
 import Results from './components/Results';
+import BusinessDetail from './components/BusinessDetail';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './components/Login';
+import Register from './components/Register';
+import { isAuthenticated, logout, subscribe as subscribeAuth } from './services/authService.js';
 import './App.css';
 
 function HomePage() {
@@ -47,24 +52,87 @@ function HomePage() {
 
 // registering routes 
 function App() {
+  // Header placed inside Router so hooks like useNavigate work
+  const Header = () => {
+    const navigate = useNavigate();
+    const [authed, setAuthed] = React.useState(isAuthenticated());
+
+    React.useEffect(() => {
+      // subscribe to auth changes so header updates reactively
+      const unsub = subscribeAuth(() => {
+        setAuthed(isAuthenticated());
+      });
+      return unsub;
+    }, []);
+
+    const doLogout = async () => {
+      try {
+        await logout();
+      } catch (e) {
+        console.error('Logout failed', e);
+      }
+      setAuthed(false);
+      navigate('/login', { replace: true });
+    };
+
+    return (
+      <header className="App-header">
+        <h1>Live Local</h1>
+        <nav>
+          <ul className="nav-links">
+            {authed ? (
+              <>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/application">Apply</Link></li>
+                <li><Link to="/profile">User Profile</Link></li>
+                <li><button onClick={doLogout}>Logout</button></li>
+              </>
+            ) : (
+              <>
+                <li><Link to="/login">Sign in</Link></li>
+                <li><Link to="/register">Register</Link></li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </header>
+    );
+  };
+
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <h1>Live Local</h1>
-          <nav>
-            <ul className="nav-links">
-              <li><Link to="/application">Apply</Link></li>
-              <li><Link to="/profile">User Profile</Link></li>
-            </ul>
-          </nav>
-        </header>
+        <Header />
         <Routes>
           {/* pages we want to be able to navigate to - in each of these pages we have to import the Link var from react-router-dom to allow for routing to work */}
-          <Route path="/" element={<HomePage />} /> 
-          <Route path="/application" element={<Application />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* Protect the root route so unauthenticated users are redirected to /login */}
+          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+
+          {/* Protected routes: redirect to /login when user is not authenticated */}
+          <Route
+            path="/application"
+            element={
+              <ProtectedRoute>
+                <Application />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/results" element={<Results />} />
+          <Route path="/business/:id" element={<BusinessDetail />} />
+
+          {/* Authentication routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>

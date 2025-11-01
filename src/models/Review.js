@@ -9,7 +9,25 @@ const ReviewClassName = 'Review';
  */
 export const createReview = async (data = {}) => {
   const obj = new Parse.Object(ReviewClassName); //create new instance of review class
-  Object.keys(data).forEach((k) => obj.set(k, data[k])); //assign each prop from data to parse obj
+  // Ensure rating is stored as a Number (Parse schema expects Number)
+  const sanitized = { ...data };
+  if (sanitized.rating !== undefined) {
+    const n = Number(sanitized.rating);
+    sanitized.rating = Number.isNaN(n) ? null : n;
+  }
+  Object.keys(sanitized).forEach((k) => obj.set(k, sanitized[k])); //assign each prop from data to parse obj
+  // attach author info when available
+  try {
+    const current = Parse.User.current();
+    if (current) {
+      // store a readable author name and also a pointer to the user
+      const username = current.get ? (current.get('username') || current.get('email')) : current.username || current.email;
+      if (username) obj.set('authorName', username);
+      obj.set('author', current);
+    }
+  } catch (e) {
+    // ignore if Parse.User.current() isn't available
+  }
   return obj.save();
 };
 
@@ -29,8 +47,10 @@ export const fetchAllReviews = async (limit = 1000) => {
   return q.find(); //return all reviews up to limit
 };
 
-export default { //export helper functions together as default object
+const ReviewAPI = {
   createReview,
   findReviewsByBusiness,
   fetchAllReviews,
 };
+
+export default ReviewAPI;

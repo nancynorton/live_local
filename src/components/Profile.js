@@ -5,42 +5,80 @@
 // also need to add ability to view and edit your own profile
 // also need to add ability to delete your own profile
 // also need to add ability to view other profiles, maybe a list of profiles or a search function
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Profile.css';
-import { createProfile } from '../models/Profile.js';
+import Parse from '../services/parseService.js';
+import { logout } from '../services/authService.js';
 
 const Profile = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    location: '',
-    interests: ''
-  });
+  const [user, setUser] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // create profile in Parse
-    createProfile(formData)
-      .then((saved) => {
-        console.log('Saved profile:', saved.toJSON());
-        alert('Profile created successfully!');
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', location: '', interests: '' });
-      })
-      .catch((err) => {
-        console.error('Error saving profile:', err);
-        alert('There was a problem saving your profile.');
+  useEffect(() => {
+    const u = Parse.User.current();
+    if (u) {
+      // convert Parse.User to plain object
+      setUser(u);
+      setFormData({
+        username: u.get('username') || '',
+        email: u.get('email') || '',
+        firstName: u.get('firstName') || '',
+        lastName: u.get('lastName') || '',
+        phone: u.get('phone') || '',
+        location: u.get('location') || '',
+        interests: u.get('interests') || ''
       });
+    }
+  }, []);
+
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error('Logout error', err);
+    }
+    navigate('/login', { replace: true });
   };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!user) return;
+    try {
+      // update Parse.User fields and save
+      Object.keys(formData).forEach((k) => {
+        if (k === 'username') return; // avoid changing username here
+        user.set(k, formData[k]);
+      });
+      // email can be updated
+      user.set('email', formData.email || null);
+      await user.save();
+      setMessage('Profile updated successfully.');
+      setEditing(false);
+    } catch (err) {
+      console.error('Save profile failed', err);
+      setMessage('Failed to update profile.');
+    }
+  };
+
+  if (!user) {
+    return (
+      <div className="profile-page">
+        <div className="home-nav">
+          <Link to="/" className="home-button">Home</Link>
+        </div>
+        <div className="container">
+          <h1>User Profile</h1>
+          <p>No user signed in. Please <Link to="/login">sign in</Link> or <Link to="/register">register</Link>.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-page">
@@ -49,97 +87,65 @@ const Profile = () => {
       </div>
 
       <div className="container">
-        <h1>User Profile</h1>
-        <p>Please fill in this form to create an account.</p>
+        <h1>Your Account</h1>
+        <p className="intro-text">View and edit your account information.</p>
         <hr />
 
-        <p className="intro-text">
-          Tell us about yourself to create your local profile.
-        </p>
+        {message && <p style={{ color: 'green' }}>{message}</p>}
 
-        <hr />
+        {!editing ? (
+          <div>
+            <p><strong>Username:</strong> {user.get('username')}</p>
+            <p><strong>Email:</strong> {user.get('email') || '—'}</p>
+            <p><strong>Name:</strong> {(user.get('firstName') || '') + ' ' + (user.get('lastName') || '')}</p>
+            <p><strong>Phone:</strong> {user.get('phone') || '—'}</p>
+            <p><strong>Location:</strong> {user.get('location') || '—'}</p>
+            <p><strong>Interests:</strong> {user.get('interests') || '—'}</p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="first-name"><b>First Name</b></label>
-              <input
-                type="text"
-                placeholder="Enter your first name"
-                name="firstName"
-                id="first-name"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="last-name"><b>Last Name</b></label>
-              <input
-                type="text"
-                placeholder="Enter your last name"
-                name="lastName"
-                id="last-name"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+              <button onClick={() => setEditing(true)} className="btn-inline">Edit Profile</button>
+              <button onClick={handleLogout} className="btn-inline">Logout</button>
             </div>
           </div>
-
-          <label htmlFor="email"><b>Email Address</b></label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            name="email"
-            id="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <label htmlFor="phone"><b>Phone Number</b></label>
-          <input
-            type="tel"
-            placeholder="Enter your phone number"
-            name="phone"
-            id="phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="location"><b>Location</b></label>
-              <input
-                type="text"
-                placeholder="City, State"
-                name="location"
-                id="location"
-                value={formData.location}
-                onChange={handleChange}
-              />
+        ) : (
+          <form onSubmit={handleSave}>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="firstName"><b>First Name</b></label>
+                <input id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="lastName"><b>Last Name</b></label>
+                <input id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} />
+              </div>
             </div>
-          </div>
 
-          <label htmlFor="interests"><b>Interests</b></label>
-          <select 
-            name="interests" 
-            id="interests"
-            value={formData.interests}
-            onChange={handleChange}
-          >
-            <option value="">Select your main interest</option>
-            <option value="dining">Dining and Restaurants</option>
-            <option value="shopping">Shopping</option>
-            <option value="entertainment">Entertainment</option>
-            <option value="fitness">Fitness & Recreation</option>
-            <option value="arts">Arts & Culture</option>
-            <option value="outdoor">Outdoor Activities</option>
-          </select>
+            <label htmlFor="email"><b>Email</b></label>
+            <input id="email" name="email" type="email" value={formData.email} onChange={handleChange} />
 
-          <button type="submit">Create Profile</button>
-        </form>
+            <label htmlFor="phone"><b>Phone</b></label>
+            <input id="phone" name="phone" value={formData.phone} onChange={handleChange} />
+
+            <label htmlFor="location"><b>Location</b></label>
+            <input id="location" name="location" value={formData.location} onChange={handleChange} />
+
+            <label htmlFor="interests"><b>Interests</b></label>
+            <select id="interests" name="interests" value={formData.interests} onChange={handleChange}>
+              <option value="">Select your main interest</option>
+              <option value="dining">Dining and Restaurants</option>
+              <option value="shopping">Shopping</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="fitness">Fitness & Recreation</option>
+              <option value="arts">Arts & Culture</option>
+              <option value="outdoor">Outdoor Activities</option>
+            </select>
+
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+              <button type="submit" className="btn-inline">Save</button>
+              <button type="button" onClick={() => { setEditing(false); setMessage(null); }} className="btn-inline">Cancel</button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

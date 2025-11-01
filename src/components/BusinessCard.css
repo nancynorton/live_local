@@ -1,29 +1,42 @@
 .business-card {
+  display: flex;
+  gap: 1rem;
+  padding: 0.8rem;
   background: white;
   border-radius: 10px;
-  padding: 1.5rem;
   margin: 1rem 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  overflow: hidden;
+  align-items: center;
 }
 
 .business-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
+.business-card-link { text-decoration: none; color: inherit; display: block; }
+
+.card-image {
+  width: 140px;
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  flex: 0 0 140px;
+}
+
+.card-body { padding: 0.6rem 0.8rem; flex: 1; }
+
 .business-card h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.25rem 0;
   color: #2c3e50;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .business-card p {
-  margin: 0.5rem 0;
-  color: #555;
-  line-height: 1.4;
+  margin: 0.15rem 0;
+  color: #444;
 }
 
-.business-card strong {
-  color: #34495e;
-}
+.business-card .address { color: #666; font-size: 0.95rem; }

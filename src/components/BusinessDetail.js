@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import './BusinessCard.css';
 import { getBusinessById } from '../services/businessService';
 import { findReviewsByBusiness, createReview } from '../models/Review';
-import { isAuthenticated, subscribe as subscribeAuth } from '../services/authService';
+import { isAuthenticated, subscribe as subscribeAuth } from './Auth/authService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const BusinessDetail = () => {

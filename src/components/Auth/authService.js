@@ -1,5 +1,7 @@
+// Student B - created Auth Module to hold login and signup pages with the auth service
+
 // auth wrapper around Parse.User
-import Parse from './parseService.js';
+import Parse from '../../services/parseService.js';
 
 export const isAuthenticated = () => {
   try {
@@ -9,8 +11,9 @@ export const isAuthenticated = () => {
   }
 };
 
+// adding parse auth service  
 export const login = async (username, password) => {
-  // parse uses username as the login field
+  // parse uses username as the login field 
   const user = await Parse.User.logIn(username, password);
   notifyAuthChange();
   return user;

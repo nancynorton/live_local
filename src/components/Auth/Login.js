@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import './Profile.css';
-import { login } from '../services/authService.js';
+import '../Profile.css';
+import { login } from './authService.js';
 
 const Login = () => {
   const [form, setForm] = useState({ username: '', password: '' });

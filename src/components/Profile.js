@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Profile.css';
 import Parse from '../services/parseService.js';
-import { logout } from '../services/authService.js';
+import { logout } from './Auth/authService.js';
 
 const Profile = () => {
   const [user, setUser] = useState(null);

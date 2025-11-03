@@ -11,9 +11,10 @@ import Profile from './components/Profile';
 import Results from './components/Results';
 import BusinessDetail from './components/BusinessDetail';
 import ProtectedRoute from './components/ProtectedRoute';
-import Login from './components/Login';
-import Register from './components/Register';
-import { isAuthenticated, logout, subscribe as subscribeAuth } from './services/authService.js';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import RedirectIfAuthenticated from './components/Auth/RedirectIfAuthenticated';
+import { isAuthenticated, logout, subscribe as subscribeAuth } from './components/Auth/authService.js';
 import './App.css';
 
 function HomePage() {
@@ -131,8 +132,22 @@ function App() {
           <Route path="/business/:id" element={<BusinessDetail />} />
 
           {/* Authentication routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={
+              <RedirectIfAuthenticated>
+                <Login />
+              </RedirectIfAuthenticated>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <RedirectIfAuthenticated>
+                <Register />
+              </RedirectIfAuthenticated>
+            }
+          />
         </Routes>
       </div>
     </Router>

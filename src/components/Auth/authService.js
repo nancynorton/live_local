@@ -25,10 +25,8 @@ export const logout = async () => {
   return res;
 };
 
-/**
- * signUp
- * - username (string), password (string), attrs (object) optional additional fields
- */
+ //signUp - username (string), password (string), attrs (object) optional additional fields
+
 export const signUp = async (username, password, attrs = {}) => {
   const user = new Parse.User();
   user.set('username', username);

@@ -139,8 +139,19 @@ export const createBusiness = async (data = {}) => {
       obj.set(k, val);
     }
   }
-
+  // Ensure the saved business is publicly readable so uploaded images are accessible by the site
   try {
+    // set a public-read ACL on the business object
+    try {
+      const acl = new Parse.ACL();
+      acl.setPublicReadAccess(true);
+      acl.setPublicWriteAccess(false);
+      obj.setACL(acl);
+    } catch (aclErr) {
+      // If ACL API isn't available for some reason, continue without failing
+      console.warn('Could not set ACL on Business object', aclErr);
+    }
+
     const saved = await obj.save();
     return saved;
   } catch (saveErr) {
